@@ -65,26 +65,14 @@ module "eks" {
   }
 }
 
-# https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2009
-data "aws_eks_cluster" "default" {
-  name = module.eks.cluster_name
-}
-
-# authorize terraform to access Kubernetes API and modify aws-auth configmap. \
-#To do that, you need to define terraform kubernetes provider. To authenticate with the cluster, you can use either use token which has an expiration time or 
-#an exec block to retrieve this token on each terraform run.
-data "aws_eks_cluster_auth" "default" {
-  name = module.eks.cluster_name
-}
-
 provider "kubernetes" {
-  host                   = data.aws_eks_cluster.default.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.default.certificate_authority[0].data)
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   # token                  = data.aws_eks_cluster_auth.default.token
 
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.default.id]
+    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
     command     = "aws"
   }
 }
