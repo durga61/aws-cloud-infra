@@ -3,6 +3,10 @@
 terraform init
 terraform apply
 
+
+terraform destroy --auto-approve
+
+
  update the Kubernetes context with the following command:
 
 aws eks update-kubeconfig --name eks-training --region ap-south-1
