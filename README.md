@@ -129,6 +129,16 @@ You can watch logs with the following command.
 kubectl logs -f -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
 
 
+# Deploy a sample application
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
+
+kubectl get ingress/ingress-2048 -n game-2048
+
+delete - kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
+
+if there is permission issue loabbalender taging, remove condtion 
+
 Testing the cluster by deploying a simple Hello World app
 
 kubectl apply -f deployment.yaml
