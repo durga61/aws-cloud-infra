@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - durga61/nginx:0.3.2
