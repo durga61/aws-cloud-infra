@@ -12,7 +12,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/durga61/aws-cloud-infra.git
+    repoURL: ssh://git@github.com/durga61/aws-cloud-infra.git
     targetRevision: feat/argocd
     path: argocd-examples/environments/staging/my-app
   destination:
