@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: ssh://git@github.com/durga61/aws-cloud-infra.git
-    targetRevision: feat/argocd
+    targetRevision: main
     path: argocd-examples/environments/staging/my-app
   destination:
     server: https://kubernetes.default.svc
