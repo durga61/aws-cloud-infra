@@ -1,3 +1,7 @@
+# Check ArgoCD components
+
+kubectl get pods -n argocd
+
 # create a base app 
 
  create a base app with k8s resources deployment, namespace along with kustomization object 
