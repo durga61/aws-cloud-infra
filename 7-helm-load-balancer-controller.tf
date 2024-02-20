@@ -1,6 +1,6 @@
 module "aws_load_balancer_controller_irsa_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  #version = "5.3.1"
+  version = "5.34.0"
 
   role_name = "aws-load-balancer-controller"
 
@@ -19,7 +19,7 @@ resource "helm_release" "aws_load_balancer_controller" {
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = "kube-system"
-  version    = "1.4.4"
+  version    = "1.7.1"
 
   set {
     name  = "replicaCount"
