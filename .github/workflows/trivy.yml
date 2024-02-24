@@ -5,6 +5,7 @@ on:
       - main
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 jobs:
   build:
     name: Trivy vulnerability scanner
