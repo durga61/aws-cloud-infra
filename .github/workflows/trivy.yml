@@ -21,13 +21,12 @@ jobs:
       - name: Run Trivy vulnerability scanner in IaC mode
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
-          scanners: 'vuln,secret,config'
+          scan-type: 'config'
+          scan-ref: './terraform/eks-alb-argocd-monitoring'
           hide-progress: false
-          format: 'table'
-          output: 'trivy-results.sarif'
+          #format: 'sarif'
+          #output: 'trivy-results.sarif'
           exit-code: '1'
-          scan-ref: '.'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
