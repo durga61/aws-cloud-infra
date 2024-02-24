@@ -24,15 +24,13 @@ jobs:
           scan-type: 'config'
           scan-ref: './terraform/eks-alb-argocd-monitoring'
           hide-progress: false
-          #format: 'table'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          format: 'table'
+          #output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
-        if: always()
         with:
           sarif_file: 'trivy-results.sarif'
