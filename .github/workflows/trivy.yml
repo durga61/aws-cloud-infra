@@ -24,7 +24,7 @@ jobs:
           scan-type: 'config'
           scan-ref: './terraform/eks-alb-argocd-monitoring'
           hide-progress: false
-          #format: 'sarif'
+          format: 'table'
           #output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
