@@ -22,6 +22,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
+          scanners: 'vuln,secret,config'
           hide-progress: false
           format: 'table'
           output: 'trivy-results.sarif'
