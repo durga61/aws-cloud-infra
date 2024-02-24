@@ -25,6 +25,8 @@ jobs:
           hide-progress: false
           format: 'sarif'
           output: 'trivy-results.sarif'
+          exit-code: '1'
+          scan-ref: 'terraform/eks-alb-argocd-monitoring'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
