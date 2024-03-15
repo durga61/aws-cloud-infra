@@ -22,7 +22,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'config'
-          scan-ref: './terraform/eks-alb-argocd-monitoring'
+          scan-ref: './terraform/eks-alb-argocd-dns-cert-monitoring'
           hide-progress: false
           format: 'table'
           #output: 'trivy-results.sarif'
