@@ -4,13 +4,13 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket  = "terraform-statefiles-ap-south1"
-    key     = "dev/terraform.tfstate"
-    region  = "ap-south-1"
+    bucket = "terraform-statefiles-ap-south1"
+    key    = "dev/terraform.tfstate"
+    region = "ap-south-1"
   }
 
   required_version = "~> 1.0"
-  
+
   required_providers {
     kubectl = {
       source  = "gavinbunney/kubectl"
@@ -22,5 +22,5 @@ terraform {
     }
   }
 
-  
+
 }
