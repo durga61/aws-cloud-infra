@@ -1,5 +1,18 @@
 provider "aws" {
   region = "ap-south-1"
+  alias  = "mumbai"
+  
+  default_tags {
+    tags = {
+      "type" = "Terraform"
+      "Project" = "aws-test"
+      "purpose" = "Automation"
+    }
+  }
+}
+
+data "aws_eks_cluster_auth" "default" {
+  name = module.eks.cluster_name
 }
 
 terraform {
@@ -9,18 +22,64 @@ terraform {
     region = "ap-south-1"
   }
 
-  required_version = "~> 1.0"
+  required_version = ">= 1.5.3"
 
   required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "~> 5.44"
+    }
     kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.14.0"
+      source  = "alekc/kubectl"
+      version = ">= 2.0.3"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.6.0"
+      version = ">= 2.13.0"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "2.23.0"
+    } 
   }
+}
 
+provider "kubernetes" {
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.default.token
 
+  # exec {
+  #   api_version = "client.authentication.k8s.io/v1beta1"
+  #   args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+  #   command     = "aws"
+  # }
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    token                  = data.aws_eks_cluster_auth.default.token
+    # exec {
+    #   api_version = "client.authentication.k8s.io/v1beta1"
+    #   args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    #   command     = "aws"
+    # }
+  }
+}
+
+provider "kubectl" {
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.default.token
+
+  # exec {
+  #   api_version = "client.authentication.k8s.io/v1beta1"
+  #   args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+  #   command     = "aws"
+  # }
+
+  apply_retry_count = 5
+  load_config_file = false
 }
