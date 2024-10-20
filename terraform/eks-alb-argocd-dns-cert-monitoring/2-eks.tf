@@ -1,13 +1,13 @@
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
+  source = "terraform-aws-modules/eks/aws"
 
   cluster_name    = "${local.cluster_name}-${local.environment}"
   cluster_version = "1.31"
 
-  cluster_endpoint_private_access = true
-  cluster_endpoint_public_access  = true
+  cluster_endpoint_private_access          = true
+  cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
- 
+
   cluster_addons = {
     coredns                = {}
     eks-pod-identity-agent = {}
@@ -51,7 +51,7 @@ module "eks" {
     "karpenter.sh/discovery" = "${local.cluster_name}-${local.environment}"
   })
 
-  tags =  local.tags
+  tags = local.tags
 }
 
 ################################################################################
@@ -61,7 +61,7 @@ module "eks" {
 module "karpenter" {
   source = "terraform-aws-modules/eks/aws//modules/karpenter"
 
-  cluster_name = module.eks.cluster_name
+  cluster_name          = module.eks.cluster_name
   enable_v1_permissions = true
 
   enable_pod_identity             = true
@@ -77,14 +77,14 @@ module "karpenter" {
 
 
 resource "helm_release" "karpenter" {
-  namespace           = "kube-system"
-  name                = "karpenter"
-  repository          = "oci://public.ecr.aws/karpenter"
+  namespace  = "kube-system"
+  name       = "karpenter"
+  repository = "oci://public.ecr.aws/karpenter"
   # repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   # repository_password = data.aws_ecrpublic_authorization_token.token.password
-  chart               = "karpenter"
-  version             = "1.0.6"
-  wait                = false
+  chart   = "karpenter"
+  version = "1.0.6"
+  wait    = false
 
   values = [
     <<-EOT
