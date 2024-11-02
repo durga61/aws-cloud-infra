@@ -40,7 +40,7 @@
                 "elasticloadbalancing:DescribeTargetHealth",
                 "elasticloadbalancing:DescribeTags",
                 "elasticloadbalancing:DescribeTrustStores",
-                "elasticloadbalancing::DescribeListenerAttributes"
+                "elasticloadbalancing:DescribeListenerAttributes"
             ],
             "Resource": "*"
         },
