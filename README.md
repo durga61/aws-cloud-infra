@@ -9,7 +9,7 @@ terraform destroy --auto-approve
 
  update the Kubernetes context with the following command:
 
-aws eks update-kubeconfig --name eks-training --region ap-south-1
+aws eks update-kubeconfig --name cluster-dev --region ap-south-1
 
 Verify that the autoscaler is running.
 
