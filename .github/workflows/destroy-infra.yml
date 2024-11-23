@@ -1,0 +1,60 @@
+# Sample workflow to access AWS resources when workflow is tied to branch
+# The workflow Creates static website using aws s3
+name: Terraform AWS infra creation
+on:
+  workflow_dispatch:
+env:
+  BUCKET_NAME : "terraform-statefiles-nov-ap-south1"
+  AWS_BUCKET_KEY_NAME: "dev/terraform.tfstate"
+  AWS_REGION : "ap-south-1"
+  WORK_DIR: "terraform/eks-alb-argocd-dns-cert-monitoring"
+# permission can be added at job level or workflow level
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+  pull-requests: write
+jobs:
+  Terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
+        with:
+          role-to-assume: arn:aws:iam::509399618437:role/aws-github-oidc
+          role-session-name: aws-github-oidc
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        working-directory:  ${{ env.WORK_DIR }}
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="bucket=${BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+        working-directory:  ${{ env.WORK_DIR }}
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory:  ${{ env.WORK_DIR }}
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        if: github.event_name == 'pull_request'
+        working-directory:  ${{ env.WORK_DIR }}
+        continue-on-error: true
+
+
+      # On push to "main", build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
+        working-directory:  ${{ env.WORK_DIR }}

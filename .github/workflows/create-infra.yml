@@ -14,7 +14,7 @@ env:
   AWS_BUCKET_KEY_NAME: "dev/terraform.tfstate"
   AWS_REGION : "ap-south-1"
   WORK_DIR: "terraform/eks-alb-argocd-dns-cert-monitoring"
-  TF_LOG: INFO
+  #TF_LOG: INFO
 # permission can be added at job level or workflow level
 
 permissions:
@@ -126,6 +126,7 @@ jobs:
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
         working-directory:  ${{ env.WORK_DIR }}
