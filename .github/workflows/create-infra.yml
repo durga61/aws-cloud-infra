@@ -3,11 +3,18 @@
 name: Terraform AWS infra creation
 on:
   push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 env:
   BUCKET_NAME : "terraform-statefiles-nov-ap-south1"
+  AWS_BUCKET_KEY_NAME: "dev/terraform.tfstate"
   AWS_REGION : "ap-south-1"
   WORK_DIR: "terraform/eks-alb-argocd-dns-cert-monitoring"
+  TF_LOG: INFO
 # permission can be added at job level or workflow level
 
 permissions:
@@ -36,7 +43,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init -backend-config="bucket=${BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
         working-directory:  ${{ env.WORK_DIR }}
 
       - name: Terraform Validate
@@ -47,6 +54,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
+        if: github.event_name == 'pull_request'
         working-directory:  ${{ env.WORK_DIR }}
         continue-on-error: true
 
@@ -108,6 +116,10 @@ jobs:
               })
             }
           working-directory:  ${{ env.WORK_DIR }}
+      
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
