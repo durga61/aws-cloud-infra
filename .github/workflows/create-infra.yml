@@ -1,11 +1,13 @@
 # Sample workflow to access AWS resources when workflow is tied to branch
 # The workflow Creates static website using aws s3
-name: AWS example workflow
+name: Terraform AWS infra creation
 on:
-  push
+  push:
+  workflow_dispatch:
 env:
-  BUCKET_NAME : "BUCKET-NAME"
+  BUCKET_NAME : "terraform-statefiles-nov-ap-south1"
   AWS_REGION : "ap-south-1"
+  WORK_DIR: "terraform/eks-alb-argocd-dns-cert-monitoring"
 # permission can be added at job level or workflow level
 
 permissions:
@@ -29,19 +31,23 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
+        working-directory:  ${{ env.WORK_DIR }}
         continue-on-error: true
 
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory:  ${{ env.WORK_DIR }}
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        working-directory:  ${{ env.WORK_DIR }}
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
+        working-directory:  ${{ env.WORK_DIR }}
         continue-on-error: true
 
       - uses: actions/github-script@v7
@@ -101,9 +107,11 @@ jobs:
                 body: output
               })
             }
+          working-directory:  ${{ env.WORK_DIR }}
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Apply
         if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+        working-directory:  ${{ env.WORK_DIR }}
