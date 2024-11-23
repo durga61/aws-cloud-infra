@@ -116,6 +116,8 @@ jobs:
               })
             }
           working-directory:  ${{ env.WORK_DIR }}
+          continue-on-error: true
+
       
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
