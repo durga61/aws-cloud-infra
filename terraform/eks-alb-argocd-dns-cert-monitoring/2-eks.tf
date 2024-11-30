@@ -44,15 +44,15 @@ module "eks" {
 
   access_entries = {
     # One access entry with a policy associated
-    example = {     
-      principal_arn     = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+    example = {
+      principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
 
       policy_associations = {
         example = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
           access_scope = {
             #namespaces = ["*"] optionally, if to restrict to specifi ns
-            type       = "cluster"
+            type = "cluster"
           }
         }
       }
