@@ -22,7 +22,7 @@ permissions:
   contents: read    # This is required for actions/checkout
   pull-requests: write
 jobs:
-  Terraform:
+  Terraform-infra-create:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
