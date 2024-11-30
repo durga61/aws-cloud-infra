@@ -1,3 +1,6 @@
+
+data "aws_caller_identity" "current" {}
+
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
@@ -38,11 +41,24 @@ module "eks" {
       }
     }
   }
-  # cluster_tags = merge(local.tags, {
-  #   NOTE - only use this option if you are using "attach_cluster_primary_security_group"
-  #   and you know what you're doing. In this case, you can remove the "node_security_group_tags" below.
-  #  "karpenter.sh/discovery" = local.name
-  # })
+
+  access_entries = {
+    # One access entry with a policy associated
+    example = {     
+      principal_arn     = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+
+      policy_associations = {
+        example = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            #namespaces = ["*"] optionally, if to restrict to specifi ns
+            type       = "cluster"
+          }
+        }
+      }
+    }
+  }
+
 
   node_security_group_tags = merge(local.tags, {
     # NOTE - if creating multiple security groups with this module, only tag the
