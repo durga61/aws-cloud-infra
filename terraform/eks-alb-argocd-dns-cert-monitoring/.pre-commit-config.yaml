@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.77.0 # Replace with the latest version
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      #- id: terraform_tflint # Validates all Terraform configuration files with TFLint
+      - id: terraform_docs
+      #- id: terraform_trivy # static analysis of terraform templates to spot potential security issues.
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0 # Replace with the latest version
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      #- id: check-yaml
+        #args: [--allow-multiple-documents]

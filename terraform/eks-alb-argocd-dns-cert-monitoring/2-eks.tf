@@ -180,4 +180,3 @@ resource "kubectl_manifest" "karpenter_node_pool" {
     kubectl_manifest.karpenter_node_class
   ]
 }
-

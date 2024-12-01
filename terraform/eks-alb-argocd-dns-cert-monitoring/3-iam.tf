@@ -79,4 +79,3 @@ module "eks_admins_iam_group" {
   group_users                       = [module.user1_iam_user.iam_user_name]
   custom_group_policy_arns          = [module.allow_assume_eks_admins_iam_policy.arn]
 }
-

@@ -2,17 +2,17 @@
 
 kubectl get pods -n argocd
 
-# create a base app 
+# create a base app
 
- create a base app with k8s resources deployment, namespace along with kustomization object 
+ create a base app with k8s resources deployment, namespace along with kustomization object
  kustomization object has info about which resources to be updated during deployment
- 
+
 # create environments
 
- create a environment needed and overwrite k8s object using kustomiaztion.yml in which namespace and docker tag are 
- 
+ create a environment needed and overwrite k8s object using kustomiaztion.yml in which namespace and docker tag are
+
  and overwrrite namespace, replicas , target deployment object to update replicas count
- mention docker image name and intial tag 
+ mention docker image name and intial tag
 
  # App of apps pattren
 
@@ -22,7 +22,7 @@ kubectl get pods -n argocd
 
 # image updater via argocd api
 
-kubectl apply -f deploy-argocd-image-updater-argcd-api/application.yaml 
+kubectl apply -f deploy-argocd-image-updater-argcd-api/application.yaml
 
  get application
 
