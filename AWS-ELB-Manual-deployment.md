@@ -1,4 +1,4 @@
-# AWS LB controller  manually 
+# AWS LB controller  manually
 Create an IAM role. Create a Kubernetes service account named aws-load-balancer-controller in the kube-system namespace for the AWS Load Balancer Controller and annotate the Kubernetes service account with the name of the IAM role.
 
 create iam policy
@@ -16,7 +16,7 @@ b. Determine whether an IAM OIDC provider with your cluster's ID is already in y
 aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
 
 c.
- 
+
   cat >load-balancer-role-trust-policy.json <<EOF
 {
     "Version": "2012-10-17",
@@ -63,9 +63,9 @@ metadata:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::288822231308:role/AmazonEKSLoadBalancerControllerRole
 EOF
-g. create the Kubernetes service account on your cluster. 
+g. create the Kubernetes service account on your cluster.
 
-# Install the AWS Load Balancer Controller using Helm V3 
+# Install the AWS Load Balancer Controller using Helm V3
 
 helm repo add eks https://aws.github.io/eks-charts
 
@@ -75,4 +75,4 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
   --set clusterName=eks-training \
   --set serviceAccount.create=false \
-  --set serviceAccount.name=aws-load-balancer-controller 
+  --set serviceAccount.name=aws-load-balancer-controller

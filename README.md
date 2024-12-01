@@ -1,4 +1,4 @@
-"# aws-cloud-infra" 
+"# aws-cloud-infra"
 # EKS clustrer setup
 terraform init
 terraform apply --auto-approve
@@ -59,7 +59,7 @@ kubectl get ingress/ingress-2048 -n game-2048
 
 delete - kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
 
-if there is permission issue loabbalender taging, remove condtion 
+if there is permission issue loabbalender taging, remove condtion
 
 Testing the cluster by deploying a simple Hello World app
 
