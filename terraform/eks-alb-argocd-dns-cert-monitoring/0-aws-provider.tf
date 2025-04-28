@@ -17,7 +17,7 @@ data "aws_eks_cluster_auth" "default" {
 
 terraform {
   backend "s3" {
-    bucket = "terraform-statefiles-nov-ap-south1"
+    bucket = "terraform-statefiles-apr25-ap-south1"
     key    = "dev/terraform.tfstate"
     region = "ap-south-1"
   }
