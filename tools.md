@@ -20,5 +20,9 @@ https://github.com/ahmetb/kubectx
 
 You can install and use the Krew kubectl plugin manager to get kubectx and kubens.
 
-kubectl krew install ctx
-kubectl krew install ns
+- kubectl krew install ctx
+- kubectl krew install ns
+  
+Windows Installation (using Chocolatey)
+
+  choco install kubens kubectx
