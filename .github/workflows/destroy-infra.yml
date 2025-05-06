@@ -56,5 +56,19 @@ jobs:
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Destroy
         #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform destroy -auto-approve -input=false
+        run: |
+          for i in {1..3}; do
+            if terraform destroy -auto-approve -input=false; then
+              echo "Terraform destroy succeeded"
+              exit 0
+            else
+              if [ $i -eq 3 ]; then
+                echo "All retry attempts failed"
+                exit 1
+              fi
+              echo "Attempt $i failed. Retrying..."
+              sleep 10
+            fi
+          done
+
         working-directory:  ${{ env.WORK_DIR }}
