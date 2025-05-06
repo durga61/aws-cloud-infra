@@ -23,7 +23,7 @@ resource "helm_release" "reloader" {
   namespace        = "reloader"
   create_namespace = true
 
-  values = [file("values/reloader-values.yaml")]
+  values     = [file("values/reloader-values.yaml")]
   depends_on = [module.eks, helm_release.karpenter, kubectl_manifest.karpenter_node_pool]
 }
 
@@ -32,7 +32,7 @@ module "external_secrets_irsa_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "5.20.0"
 
-  role_name                     = "external-secrets-irsa"
+  role_name                      = "external-secrets-irsa"
   attach_external_secrets_policy = true
 
   oidc_providers = {
@@ -50,7 +50,7 @@ module "external_secrets_irsa_role" {
 resource "aws_iam_policy" "external_secrets" {
   name        = "external-secrets-policy"
   description = "Policy for External Secrets Operator"
-  
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
