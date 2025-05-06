@@ -11,4 +11,8 @@ resource "helm_release" "argocd" {
   version          = "3.35.4"
 
   values = [file("values/argocd.yaml")]
+
+  depends_on = [
+    helm_release.karpenter, kubectl_manifest.karpenter_node_pool
+  ]
 }

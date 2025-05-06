@@ -59,5 +59,5 @@ resource "helm_release" "aws_lbc" {
     value = module.vpc.vpc_id
   }
 
-  depends_on = [module.eks]
+  depends_on = [module.eks, helm_release.karpenter, kubectl_manifest.karpenter_node_pool]
 }
