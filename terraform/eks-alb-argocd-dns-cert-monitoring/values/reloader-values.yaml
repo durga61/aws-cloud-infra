@@ -1,0 +1,4 @@
+reloader:
+  autoReloadAll: true
+  reloadOnConfigChange: true
+  reloadOnSecretChange: true
