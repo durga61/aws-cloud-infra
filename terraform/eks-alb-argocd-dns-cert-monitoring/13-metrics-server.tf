@@ -8,5 +8,5 @@ resource "helm_release" "metrics_server" {
 
   values = [file("${path.module}/values/metrics-server.yaml")]
 
-  depends_on = [module.eks]
+  depends_on = [module.eks, helm_release.karpenter, kubectl_manifest.karpenter_node_pool]
 }
