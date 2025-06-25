@@ -10,7 +10,7 @@ on:
       - main
   workflow_dispatch:
 env:
-  BUCKET_NAME : "terraform-statefiles-apr25-ap-south1"
+  BUCKET_NAME : "terraform-statefiles-jun25-ap-south1"
   AWS_BUCKET_KEY_NAME: "dev/terraform.tfstate"
   AWS_REGION : "ap-south-1"
   WORK_DIR: "terraform/eks-alb-argocd-dns-cert-monitoring"
@@ -31,7 +31,7 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
-          role-to-assume: arn:aws:iam::717279697458:role/GitHubAction-AssumeRoleWithAction
+          role-to-assume: arn:aws:iam::944101542130:role/github-oidc-role
           role-session-name: aws-github-oidc
           aws-region: ${{ env.AWS_REGION }}
 
