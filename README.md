@@ -18,8 +18,12 @@ kubectl get pods -n kube-system
 
 you can watch autoscaler logs just to make sure you don't have any errors.
 
-kubectl logs -f -n kube-system -l app=cluster-autoscaler
+ kubectl logs -f -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller  --all-containers=true --prefix
 
+
+How to route traffic to a domain name before creating the dns record
+
+curl -i --header "Host: myapp.example.com" http://k8s-6example-myapp-2bf9f030a0-1676692800.ap-south-1.elb.amazonaws.com/about
 Now let's apply nginx Kubernetes deployment.
 
 kubectl apply -f k8s/nginx.yaml
