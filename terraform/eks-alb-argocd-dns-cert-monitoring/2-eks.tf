@@ -119,6 +119,10 @@ resource "helm_release" "karpenter" {
         effect: NoSchedule
     EOT
   ]
+  depends_on = [
+    kubectl_manifest.karpenter_node_pool,
+    kubectl_manifest.karpenter_node_class
+  ]
 }
 
 resource "kubectl_manifest" "karpenter_node_class" {
@@ -140,9 +144,6 @@ resource "kubectl_manifest" "karpenter_node_class" {
         karpenter.sh/discovery: ${module.eks.cluster_name}
   YAML
 
-  depends_on = [
-    helm_release.karpenter
-  ]
 }
 
 resource "kubectl_manifest" "karpenter_node_pool" {
