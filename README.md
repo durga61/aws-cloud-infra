@@ -24,6 +24,9 @@ you can watch autoscaler logs just to make sure you don't have any errors.
 How to route traffic to a domain name before creating the dns record
 
 curl -i --header "Host: myapp.example.com" http://k8s-6example-myapp-2bf9f030a0-1676692800.ap-south-1.elb.amazonaws.com/about
+
+curl -i --header "Host: ex8.durgaprasad.com" http://k8s-ingress-external-691b1ffd7e-d8ab906cbf21be7f.elb.ap-south-1.amazonaws.com/about
+
 Now let's apply nginx Kubernetes deployment.
 
 kubectl apply -f k8s/nginx.yaml
