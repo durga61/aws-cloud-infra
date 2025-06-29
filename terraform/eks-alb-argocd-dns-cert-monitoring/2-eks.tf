@@ -119,12 +119,11 @@ resource "helm_release" "karpenter" {
         effect: NoSchedule
     EOT
   ]
-  depends_on = [
-    kubectl_manifest.karpenter_node_pool,
-    kubectl_manifest.karpenter_node_class
-  ]
 }
 
+# This resource creates a Karpenter EC2NodeClass, which defines the configuration for EC2 instances
+# that Karpenter can provision in the EKS cluster. It specifies the AMI family, IAM role, subnet,
+# and security group selectors using discovery tags, ensuring Karpenter-managed nodes are properly configured.
 resource "kubectl_manifest" "karpenter_node_class" {
   yaml_body = <<-YAML
     apiVersion: karpenter.k8s.aws/v1beta1
@@ -143,6 +142,10 @@ resource "kubectl_manifest" "karpenter_node_class" {
       tags:
         karpenter.sh/discovery: ${module.eks.cluster_name}
   YAML
+  depends_on = [
+    module.karpenter,
+    helm_release.karpenter
+  ]
 
 }
 
