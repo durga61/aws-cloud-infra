@@ -143,6 +143,10 @@ resource "kubectl_manifest" "karpenter_node_class" {
       tags:
         karpenter.sh/discovery: ${module.eks.cluster_name}
   YAML
+  depends_on = [
+    module.karpenter,
+    module.eks
+  ]
 
 }
 
