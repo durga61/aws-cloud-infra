@@ -19,6 +19,7 @@ kubectl get pods -n kube-system
 you can watch autoscaler logs just to make sure you don't have any errors.
 
  kubectl logs -f -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller  --all-containers=true --prefix
+ kubectl logs -f -n kube-system -l  app.kubernetes.io/name=karpenter  
 
 
 How to route traffic to a domain name before creating the dns record
