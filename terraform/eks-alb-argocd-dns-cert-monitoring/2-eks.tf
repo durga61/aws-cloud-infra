@@ -24,11 +24,11 @@ module "eks" {
   eks_managed_node_groups = {
     karpenter = {
       ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["m5.large"]
+      instance_types = ["t2.large", "t3.large", "m4.large", "m5.large", "m6i.large"]
 
-      min_size     = 2
+      min_size     = 1
       max_size     = 3
-      desired_size = 2
+      desired_size = 1
 
       taints = {
         # This Taint aims to keep just EKS Addons and Karpenter running on this MNG
@@ -86,6 +86,7 @@ module "karpenter" {
   # Used to attach additional IAM policies to the Karpenter node IAM role
   node_iam_role_additional_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    AmazonSSMManagedEC2InstanceDefaultPolicy = "arn:aws:iam::aws:policy/AmazonSSMManagedEC2InstanceDefaultPolicy"
   }
 
   tags = local.tags
