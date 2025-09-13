@@ -4,14 +4,14 @@ data "aws_caller_identity" "current" {}
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
-  cluster_name    = "${local.cluster_name}-${local.environment}"
-  cluster_version = "1.31"
+  name            = "${local.cluster_name}-${local.environment}"
+  kubernetes_version   = "1.31"
 
-  cluster_endpoint_private_access          = true
-  cluster_endpoint_public_access           = true
+  endpoint_private_access           = true
+  endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
 
-  cluster_addons = {
+  addons = {
     coredns                = {}
     eks-pod-identity-agent = {}
     kube-proxy             = {}
