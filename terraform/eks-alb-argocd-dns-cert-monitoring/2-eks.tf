@@ -3,9 +3,10 @@ data "aws_caller_identity" "current" {}
 
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
+  version = "21.2.0"
 
   name            = "${local.cluster_name}-${local.environment}"
-  kubernetes_version   = "1.31"
+  kubernetes_version   = "1.33"
 
   endpoint_private_access           = true
   endpoint_public_access           = true
@@ -76,11 +77,11 @@ module "eks" {
 
 module "karpenter" {
   source = "terraform-aws-modules/eks/aws//modules/karpenter"
+  version = "21.2.0"
 
   cluster_name          = module.eks.cluster_name
-  enable_v1_permissions = true
 
-  enable_pod_identity             = true
+
   create_pod_identity_association = true
 
   # Used to attach additional IAM policies to the Karpenter node IAM role

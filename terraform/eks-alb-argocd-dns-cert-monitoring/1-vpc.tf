@@ -1,9 +1,11 @@
 locals {
-  cluster_name             = "cluster"
+  name                     = "cluster"
+  vpc_cidr                 = "10.0.0.0/16"
+  azs                      = slice(data.aws_availability_zones.available.names, 0, 3)
   az_count                 = length(data.aws_availability_zones.available.zone_ids)
-  cluster_sbunet_cidr_size = local.az_count > 3 ? 22 : 21
+  subnet_cidr_size         = local.az_count > 3 ? 22 : 21
   domain                   = "durgadevops.online"
-  name                     = "EKS-DNS-setup"
+  domain_name              = "EKS-DNS-setup"
   region                   = "ap-south-1"
   environment              = "dev"
 
@@ -14,13 +16,15 @@ locals {
     Owner       = "Durgaprasad"
   }
 }
+
+
 data "aws_region" "current" {}
 
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.1.1"
+  version = "~> 6.0"
 
   name = "main"
   cidr = "10.0.0.0/16"
