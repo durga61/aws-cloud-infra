@@ -8,7 +8,7 @@ resource "helm_release" "updater" {
   chart            = "argocd-image-updater"
   namespace        = "argocd"
   create_namespace = true
-  version          = "0.9.1"
+  version          = "1.1.4"
 
   values = [file("values/image-updater.yaml")]
 }

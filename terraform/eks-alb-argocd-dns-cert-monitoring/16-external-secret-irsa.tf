@@ -9,7 +9,7 @@ resource "helm_release" "external_secrets" {
   chart            = "external-secrets"
   namespace        = "external-secrets"
   create_namespace = true
-  version          = "0.16.1"
+  version          = "0.17.0"
 
   values = [file("values/external-secrets-values.yaml")]
 
@@ -22,6 +22,7 @@ resource "helm_release" "reloader" {
   chart            = "reloader"
   namespace        = "reloader"
   create_namespace = true
+  version          = "2.2.9"
 
   values     = [file("values/reloader-values.yaml")]
   depends_on = [module.eks, helm_release.karpenter, kubectl_manifest.karpenter_node_pool]
@@ -30,7 +31,7 @@ resource "helm_release" "reloader" {
 module "external_secrets_irsa_role" {
 
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "5.20.0"
+  version = "5.39.0"
 
   role_name                      = "external-secrets-irsa"
   attach_external_secrets_policy = true

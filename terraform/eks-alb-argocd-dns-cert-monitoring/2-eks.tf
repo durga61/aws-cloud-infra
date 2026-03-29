@@ -2,8 +2,8 @@
 data "aws_caller_identity" "current" {}
 
 module "eks" {
-  source = "terraform-aws-modules/eks/aws"
-  version = "21.2.0"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "21.15.1"
 
   name            = "${local.cluster_name}-${local.environment}"
   kubernetes_version   = "1.33"
@@ -76,8 +76,8 @@ module "eks" {
 ################################################################################
 
 module "karpenter" {
-  source = "terraform-aws-modules/eks/aws//modules/karpenter"
-  version = "21.2.0"
+  source  = "terraform-aws-modules/eks/aws//modules/karpenter"
+  version = "21.15.1"
 
   cluster_name          = module.eks.cluster_name
 
@@ -101,7 +101,7 @@ resource "helm_release" "karpenter" {
   # repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   # repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart   = "karpenter"
-  version = "1.0.6"
+  version = "1.9.0"
   wait    = false
 
   values = [
