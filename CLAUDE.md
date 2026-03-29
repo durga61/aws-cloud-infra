@@ -2,6 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Tech stack
+
+- **Terraform** for infrastructure as code (IaC) provisioning and management
+- **AWS EKS as the Kubernetes managed service
+
+## Conventions
+
+- Use conventional commits
+- Never commit directly to main branch
+- Run lint before PR
+
+## Security
+
+- Do not commit secrets or sensitive information in `.tfvars` files or anywhere in the codebase
+- Use GitHub Secrets for any credentials needed in CI/CD workflows
+- Regularly run `trivy` scans and fix any CRITICAL/HIGH findings before merging
+- Follow AWS security best practices for IAM roles, least privilege, and network access
+- Enable EKS control plane logging and etcd encryption for production clusters
+- Use OIDC for AWS authentication in Terraform and Kubernetes providers (no long-lived credentials)
+
 ## Primary Terraform Working Directory
 
 All infrastructure lives under:

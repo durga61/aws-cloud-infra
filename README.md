@@ -9,7 +9,7 @@ terraform destroy --auto-approve
 
  update the Kubernetes context with the following command:
 
-aws eks update-kubeconfig --name eks-dev --region ap-south-1
+aws eks update-kubeconfig --name cluster-dev --region ap-south-1
 
 Verify that the autoscaler is running.
 
@@ -19,11 +19,8 @@ kubectl get pods -n kube-system
 you can watch autoscaler logs just to make sure you don't have any errors.
 
  kubectl logs -f -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller  --all-containers=true --prefix
- kubectl logs -f -n kube-system -l  app.kubernetes.io/name=karpenter  
 
-I have verified that the service account has the correct permissions:
-kubectl auth can-i get ec2nodeclasses.karpenter.k8s.aws --as=system:serviceaccount:kube-system:karpenter --all-namespaces
-yes
+
 How to route traffic to a domain name before creating the dns record
 
 curl -i --header "Host: myapp.example.com" http://k8s-6example-myapp-2bf9f030a0-1676692800.ap-south-1.elb.amazonaws.com/about
